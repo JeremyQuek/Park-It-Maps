@@ -1,0 +1,26 @@
+backend:
+    build: ./backend
+    container_name: park_it_backend
+    ports:
+      - "8000:8000"
+    environment:
+      - URA_ACCESS_
+      - URA_KEY_URL=
+      - LTA_ACCESS_KEY=
+      - GROQ_KEY=
+      - HDB_LOTS_URL=
+      - LTA_LOTS_URL=
+      - FRONTEND_URL=
+      - BACKEND_URL=
+      - DB_URL=
+      - INTERVAL=895
+      - DATABASE_UPDATE_INTERVAL=60
+
+  frontend:
+    build: ./frontend
+    container_name: park_it_frontend
+    ports:
+      - "3000:3000"
+    environment:
+      - REACT_APP_MAPBOX_ACCESS_TOKEN=
+      - REACT_APP_BACKEND_URL=

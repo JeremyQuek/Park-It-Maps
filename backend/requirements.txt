@@ -1,0 +1,12 @@
+flask
+flask-cors
+Flask-APScheduler
+
+python-dotenv
+psutil
+
+groq
+gunicorn
+requests
+
+psycopg2
