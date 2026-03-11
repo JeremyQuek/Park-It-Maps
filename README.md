@@ -11,9 +11,8 @@
 ![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)
 ![Node.js](https://img.shields.io/badge/Node.js-43853D?style=for-the-badge&logo=node.js&logoColor=white)
 ![AWS](https://img.shields.io/badge/AWS-232F3E?style=for-the-badge&logo=amazon-aws&logoColor=white)
+<img width="1123" height="457" alt="Screenshot 2026-03-10 at 11 20 24 PM" src="https://github.com/user-attachments/assets/bab9af4a-3972-449a-83ef-d928ddae3686" />
 
-
-<img width="200" height="856" alt="Screenshot 2026-03-10 at 10 22 32 PM" src="https://github.com/JeremyQuek/park-it-maps/blob/production/Images/parkit_white_logo.png" />
 </div>
 
 
