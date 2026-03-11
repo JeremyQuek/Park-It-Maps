@@ -20,9 +20,13 @@ import {
   DialogActions,
   TextField,
   CircularProgress,
+  Typography,
+  Stack,
 } from "@mui/material";
-import { DeleteOutline } from "@mui/icons-material";
+import { DeleteOutline, InfoOutlined } from "@mui/icons-material";
+import CloseIcon from "@mui/icons-material/Close";
 import { IoNavigate } from "react-icons/io5";
+import { motion, AnimatePresence } from "framer-motion";
 import "./style.css";
 
 mapboxgl.accessToken = process.env.REACT_APP_MAPBOX_ACCESS_TOKEN;
@@ -42,6 +46,21 @@ const Bookmarks = () => {
   const [locationError, setLocationError] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const [showInstructionBox, setShowInstructionBox] = useState(false);
+
+  useEffect(() => {
+    const hasSeenBookmarksHint = sessionStorage.getItem("hasSeenBookmarksHint");
+    if (!hasSeenBookmarksHint) {
+      const timer = setTimeout(() => setShowInstructionBox(true), 1000);
+      return () => clearTimeout(timer);
+    }
+  }, []);
+
+  const closeInstructionBox = () => {
+    sessionStorage.setItem("hasSeenBookmarksHint", "true");
+    setShowInstructionBox(false);
+  };
 
   const initializeMap = () => {
     if (map.current) return;
@@ -177,6 +196,47 @@ const Bookmarks = () => {
 
   return (
     <div className="page" style={{ background: "#fcfcfc" }}>
+      <AnimatePresence>
+        {showInstructionBox && (
+          <motion.div
+            initial={{ y: -100, x: "-50%", opacity: 0 }}
+            animate={{ y: 0, x: "-50%", opacity: 1 }}
+            exit={{ y: -100, x: "-50%", opacity: 0 }}
+            transition={{ type: "spring", stiffness: 100, damping: 15 }}
+            style={{
+              position: "fixed",
+              top: "80px", // Placed below the TopBar
+              left: "50%",
+              transform: "translateX(-50%)",
+              zIndex: 3000,
+              width: "300px",
+              backgroundColor: "#1976d2",
+              padding: "12px 16px",
+              borderRadius: "12px",
+              boxShadow: "0px 8px 30px rgba(0,0,0,0.2)",
+              color: "white",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-between",
+            }}
+          >
+            <Stack direction="row" spacing={1.5} alignItems="center">
+              <InfoOutlined sx={{ fontSize: 20 }} />
+              <Typography variant="body2" fontWeight="600">
+                Save your favorite spots to find parking faster!
+              </Typography>
+            </Stack>
+            <IconButton
+              size="small"
+              onClick={closeInstructionBox}
+              sx={{ color: "white", ml: 1, padding: 0 }}
+            >
+              <CloseIcon fontSize="small" />
+            </IconButton>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
       <div className="top-bar" style={{ position: "relative" }}>
         <IconButton
           component={Link}

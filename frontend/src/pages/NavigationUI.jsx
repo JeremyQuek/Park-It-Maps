@@ -52,6 +52,8 @@ function Navigation() {
 
   const [showGithubBox, setShowGithubBox] = useState(false);
   const [showInstructionBox, setShowInstructionBox] = useState(false);
+  const [showNearMeBox, setShowNearMeBox] = useState(false);
+  const [showGmapsBox, setShowGmapsBox] = useState(false);
 
   useEffect(() => {
     const hasSeenInThisSession = sessionStorage.getItem("hasSeenGithubBox");
@@ -71,6 +73,21 @@ function Navigation() {
     setTimeout(() => {
       setShowInstructionBox(true);
     }, 1000);
+  };
+
+  const closeInstructionBox = () => {
+    setShowInstructionBox(false);
+    setTimeout(() => setShowNearMeBox(true), 1000);
+  };
+
+  const closeNearMeBox = () => {
+    setShowNearMeBox(false);
+    setTimeout(() => setShowGmapsBox(true), 1000);
+  };
+
+  const closeGmapsBox = () => {
+    setShowGmapsBox(false);
+    sessionStorage.setItem("hasSeenInThisSession", "true");
   };
 
   const findCarparks = useCallback(
@@ -424,11 +441,73 @@ function Navigation() {
 
             <IconButton
               size="small"
-              onClick={() => setShowInstructionBox(false)}
+              onClick={closeInstructionBox}
               sx={{ color: "white", ml: 1, padding: 0 }}
             >
               <CloseIcon fontSize="small" />
             </IconButton>
+          </motion.div>
+        )}
+
+        {showNearMeBox && (
+          <motion.div
+            initial={{ x: -50, opacity: 0 }}
+            animate={{ x: 0, opacity: 1 }}
+            exit={{ x: -50, opacity: 0 }}
+            style={{
+              position: "fixed",
+              bottom: "585px",
+              left: "40%",
+              zIndex: 3000,
+              width: "200px",
+              backgroundColor: "#292929",
+              padding: "8px 12px",
+              borderRadius: "8px",
+              color: "white",
+              boxShadow: "0px 4px 15px rgba(0,0,0,0.3)",
+            }}
+          >
+            <Typography variant="caption" fontWeight="600" display="block">
+              Click here to find carparks at your current location!
+            </Typography>
+            <Button
+              size="small"
+              onClick={closeNearMeBox}
+              sx={{ color: "#90caf9", p: 0, mt: 0.5, fontSize: "0.7rem" }}
+            >
+              Next
+            </Button>
+          </motion.div>
+        )}
+
+        {showGmapsBox && (
+          <motion.div
+            initial={{ x: -50, opacity: 0 }}
+            animate={{ x: 0, opacity: 1 }}
+            exit={{ x: -50, opacity: 0 }}
+            style={{
+              position: "fixed",
+              bottom: "515px",
+              left: "40%",
+              zIndex: 3000,
+              width: "200px",
+              backgroundColor: "#1565c0",
+              padding: "8px 12px",
+              borderRadius: "8px",
+              color: "white",
+              boxShadow: "0px 4px 15px rgba(0,0,0,0.3)",
+            }}
+          >
+            <Typography variant="caption" fontWeight="600" display="block">
+              Open your selected destination in Google Maps.
+            </Typography>
+            <Button
+              size="small"
+              onClick={closeGmapsBox}
+              sx={{ color: "white", p: 0, mt: 0.5, fontSize: "0.7rem" }}
+            >
+              Got it!
+            </Button>
           </motion.div>
         )}
       </AnimatePresence>
