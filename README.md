@@ -11,7 +11,7 @@
 ![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)
 ![Node.js](https://img.shields.io/badge/Node.js-43853D?style=for-the-badge&logo=node.js&logoColor=white)
 ![AWS](https://img.shields.io/badge/AWS-232F3E?style=for-the-badge&logo=amazon-aws&logoColor=white)
-<img width="1123" height="457" alt="Screenshot 2026-03-10 at 11 20 24 PM" src="https://github.com/user-attachments/assets/bab9af4a-3972-449a-83ef-d928ddae3686" />
+<img width="1112" height="428" alt="Screenshot 2026-03-10 at 11 20 54 PM" src="https://github.com/user-attachments/assets/7f4553f5-0a30-4558-9f07-ad25a29ee59e" />
 
 </div>
 
