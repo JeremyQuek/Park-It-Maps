@@ -11,14 +11,14 @@ import Fab from "@mui/material/Fab";
 import axios from "axios";
 import "./style.css";
 
-import { 
-  Stack, 
-  Typography, 
-  Card, 
-  Snackbar, 
-  Alert, 
-  IconButton, 
-  Button 
+import {
+  Stack,
+  Typography,
+  Card,
+  Snackbar,
+  Alert,
+  IconButton,
+  Button,
 } from "@mui/material";
 
 import CarparkCard from "../components/CarparkCard";
@@ -30,6 +30,7 @@ import { DirectionsCarFilled } from "@mui/icons-material";
 import NavigationIcon from "@mui/icons-material/Navigation";
 import CloseIcon from "@mui/icons-material/Close";
 import GitHubIcon from "@mui/icons-material/GitHub";
+import ArrowDropDownCircleIcon from "@mui/icons-material/ArrowDropDownCircle";
 
 const backend_url = process.env.REACT_APP_BACKEND_URL;
 mapboxgl.accessToken = process.env.REACT_APP_MAPBOX_ACCESS_TOKEN;
@@ -50,51 +51,59 @@ function Navigation() {
   const [isUserInput, setIsUserInput] = useState(false);
 
   const [showGithubBox, setShowGithubBox] = useState(false);
+  const [showInstructionBox, setShowInstructionBox] = useState(false);
 
   useEffect(() => {
-    // Use sessionStorage instead of localStorage
     const hasSeenInThisSession = sessionStorage.getItem("hasSeenGithubBox");
-    
+
     if (!hasSeenInThisSession) {
+      // Show ONLY the GitHub box first
       const timer = setTimeout(() => setShowGithubBox(true), 1000);
       return () => clearTimeout(timer);
     }
   }, []);
-  
+
   const closeGithubBox = () => {
-    // This tells the browser: "In this current tab, we are done."
     sessionStorage.setItem("hasSeenGithubBox", "true");
     setShowGithubBox(false);
+
+    // Trigger the Instruction box immediately after GitHub is closed
+    setTimeout(() => {
+      setShowInstructionBox(true);
+    }, 1000);
   };
 
-  const findCarparks = useCallback(async (lat, long) =>{
-    try {
-      const params = {
-        lat: lat,
-        lon: long,
-      };
-      console.log("Location data sent:", lat, long);
-      const response = await axios.get(`${backend_url}/find`, {
-        params,
-        headers: {
-          "Content-Type": "application/json",
-        },
-        withCredentials: false,
-      });
-      console.log("Carpark data received:", response.data);
-      setCarparkData(response.data);
-      setVisibleResults(3);
+  const findCarparks = useCallback(
+    async (lat, long) => {
+      try {
+        const params = {
+          lat: lat,
+          lon: long,
+        };
+        console.log("Location data sent:", lat, long);
+        const response = await axios.get(`${backend_url}/find`, {
+          params,
+          headers: {
+            "Content-Type": "application/json",
+          },
+          withCredentials: false,
+        });
+        console.log("Carpark data received:", response.data);
+        setCarparkData(response.data);
+        setVisibleResults(3);
 
-      // Add a marker for the destination
-      if (map.current && endPoint) {
-        new mapboxgl.Marker().setLngLat(endPoint).addTo(map.current);
+        // Add a marker for the destination
+        if (map.current && endPoint) {
+          new mapboxgl.Marker().setLngLat(endPoint).addTo(map.current);
+        }
+
+        return response.data;
+      } catch (error) {
+        console.error("Error:", error);
       }
-
-      return response.data;
-    } catch (error) {
-      console.error("Error:", error);
-    }
-  }, [endPoint]);
+    },
+    [endPoint],
+  );
 
   const handleCarparkSelect = (carpark) => {
     console.log("Selected carpark:", carpark);
@@ -253,7 +262,7 @@ function Navigation() {
 
         if (response.data?.routes?.length > 0) {
           const routeData = response.data.routes[0];
-          
+
           // 1. Update the state
           setRoute(routeData);
 
@@ -287,7 +296,9 @@ function Navigation() {
           });
 
           const bounds = new mapboxgl.LngLatBounds();
-          routeData.geometry.coordinates.forEach((coord) => bounds.extend(coord));
+          routeData.geometry.coordinates.forEach((coord) =>
+            bounds.extend(coord),
+          );
           map.current.fitBounds(bounds, { padding: 50 });
         }
       } catch (error) {
@@ -312,74 +323,116 @@ function Navigation() {
 
   return (
     <div className="page">
+      <AnimatePresence>
+        {showGithubBox && (
+          <motion.div
+            // Starts above the screen (-100px) and slides down to its position
+            initial={{ y: -100, x: "-50%", opacity: 0 }}
+            animate={{ y: 0, x: "-50%", opacity: 1 }}
+            exit={{ y: -100, x: "-50%", opacity: 0 }}
+            transition={{ type: "spring", stiffness: 100, damping: 15 }}
+            style={{
+              position: "fixed",
+              top: "20px", // Distance from the top of the viewport
+              left: "50%", // Move to the horizontal center
+              transform: "translateX(-50%)", // Perfect centering trick
+              zIndex: 3000, // Ensure it is above the TopBar if necessary
+              width: "320px",
+              backgroundColor: "white",
+              padding: "20px",
+              borderRadius: "16px",
+              boxShadow: "0px 10px 40px rgba(0,0,0,0.2)",
+              border: "1px solid rgba(0,0,0,0.08)",
+            }}
+          >
+            {/* THE CLOSE BUTTON */}
+            <IconButton
+              size="small"
+              onClick={closeGithubBox}
+              sx={{
+                position: "absolute",
+                top: 8,
+                right: 8,
+                color: "grey.400",
+                "&:hover": {
+                  color: "error.main",
+                  backgroundColor: "rgba(255,0,0,0.05)",
+                },
+              }}
+            >
+              <CloseIcon fontSize="small" />
+            </IconButton>
 
-<AnimatePresence>
-  {showGithubBox && (
-    <motion.div
-      // Starts above the screen (-100px) and slides down to its position
-      initial={{ y: -100, x: "-50%", opacity: 0 }}
-      animate={{ y: 0, x: "-50%", opacity: 1 }}
-      exit={{ y: -100, x: "-50%", opacity: 0 }}
-      transition={{ type: "spring", stiffness: 100, damping: 15 }}
-      style={{
-        position: "fixed",
-        top: "20px",        // Distance from the top of the viewport
-        left: "50%",        // Move to the horizontal center
-        transform: "translateX(-50%)", // Perfect centering trick
-        zIndex: 3000,       // Ensure it is above the TopBar if necessary
-        width: "320px",
-        backgroundColor: "white",
-        padding: "20px",
-        borderRadius: "16px",
-        boxShadow: "0px 10px 40px rgba(0,0,0,0.2)",
-        border: "1px solid rgba(0,0,0,0.08)",
-      }}
-    >
-      {/* THE CLOSE BUTTON */}
-      <IconButton
-        size="small"
-        onClick={closeGithubBox}
-        sx={{
-          position: "absolute",
-          top: 8,
-          right: 8,
-          color: "grey.400",
-          "&:hover": { color: "error.main", backgroundColor: "rgba(255,0,0,0.05)" }
-        }}
-      >
-        <CloseIcon fontSize="small" />
-      </IconButton>
+            {/* CONTENT */}
+            <Stack spacing={1} alignItems="center" sx={{ textAlign: "center" }}>
+              <GitHubIcon sx={{ fontSize: 32, color: "#24292e" }} />
+              <Typography variant="subtitle2" fontWeight="700">
+                Check out the Source Code
+              </Typography>
+              <Typography variant="body2" color="text.secondary">
+                Star this project on GitHub if you find it useful!
+              </Typography>
+              <Button
+                variant="contained"
+                size="small"
+                href="https://github.com/JeremyQuek/Park-It-Maps"
+                target="_blank"
+                sx={{
+                  mt: 1,
+                  bgcolor: "#24292e",
+                  px: 3,
+                  textTransform: "none",
+                  borderRadius: "20px",
+                  "&:hover": { bgcolor: "#000" },
+                }}
+              >
+                View on GitHub
+              </Button>
+            </Stack>
+          </motion.div>
+        )}
 
-      {/* CONTENT */}
-      <Stack spacing={1} alignItems="center" sx={{ textAlign: 'center' }}>
-        <GitHubIcon sx={{ fontSize: 32, color: "#24292e" }} />
-        <Typography variant="subtitle2" fontWeight="700">
-          Check out the Source Code
-        </Typography>
-        <Typography variant="body2" color="text.secondary">
-          Star this project on GitHub if you find it useful!
-        </Typography>
-        <Button
-          variant="contained"
-          size="small"
-          href="https://github.com/JeremyQuek/Park-It-Maps"
-          target="_blank"
-          sx={{ 
-            mt: 1, 
-            bgcolor: "#24292e", 
-            px: 3,
-            textTransform: "none",
-            borderRadius: "20px",
-            "&:hover": { bgcolor: "#000" } 
-          }}
-        >
-          View on GitHub
-        </Button>
-      </Stack>
-    </motion.div>
-  )}
-</AnimatePresence>
-      
+        {showInstructionBox && (
+          <motion.div
+            initial={{ y: -100, x: "-50%", opacity: 0 }}
+            animate={{ y: 0, x: "-50%", opacity: 1 }}
+            exit={{ y: -100, x: "-50%", opacity: 0 }}
+            transition={{ type: "spring", stiffness: 100, damping: 15 }}
+            style={{
+              position: "fixed",
+              top: "20px",
+              left: "50%",
+              transform: "translateX(-50%)",
+              zIndex: 3000,
+              width: "280px", // Slightly narrower
+              backgroundColor: "#1565c0", // MUI Primary Blue
+              padding: "10px 16px", // Slimmer padding
+              borderRadius: "12px",
+              boxShadow: "0px 8px 30px rgba(0,0,0,0.2)",
+              color: "white",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-between",
+            }}
+          >
+            <Stack direction="row" spacing={1.5} alignItems="center">
+              <ArrowDropDownCircleIcon sx={{ fontSize: 18 }} />
+              <Typography variant="body2" fontWeight="600">
+                Type in a location to begin!
+              </Typography>
+            </Stack>
+
+            <IconButton
+              size="small"
+              onClick={() => setShowInstructionBox(false)}
+              sx={{ color: "white", ml: 1, padding: 0 }}
+            >
+              <CloseIcon fontSize="small" />
+            </IconButton>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
       <motion.div
         initial={{ y: -100, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
