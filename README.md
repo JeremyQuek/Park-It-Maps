@@ -1,4 +1,6 @@
-# Carpark Application
+<div align="center">
+    
+# 🚙  Park It!  🚗
 
 ![Python](https://img.shields.io/badge/Python-555555?style=for-the-badge&logo=python&logoColor=white)
 ![3.12](https://img.shields.io/badge/3.12-FFC11A?style=for-the-badge)
@@ -9,82 +11,80 @@
 ![Node.js](https://img.shields.io/badge/Node.js-43853D?style=for-the-badge&logo=node.js&logoColor=white)
 ![AWS](https://img.shields.io/badge/AWS-232F3E?style=for-the-badge&logo=amazon-aws&logoColor=white)
 
-A sophisticated web application designed to revolutionize parking space management and discovery. The application leverages advanced algorithms including 2D k-d trees for efficient nearest neighbor searches, providing users with real-time information about nearby parking facilities. Features include intelligent navigation assistance, comprehensive carpark listings, live availability updates, and optimal route planning for seamless parking experiences.
+</div>
 
-## Preview
+A web application to help drivers find parking more easily. Applications like google maps do not tailor to local singapore parking live data or locations. If you're a new driver, chances are you'll be stressed out while driving. This app helps you to find parking spots easily and display information like lot type, EV charging spots, parking locations and prices.
+
+## App Preview
 
 <div align="center">
 
 <div style="display: flex; justifyContent: center; gap: 20px;">
-    <img src="./Images/image_2.png" width="300" alt="Application Preview"/>
-    <img src="./Images/image_5.png" width="300" alt="Application Preview"/>
-        <img src="./Images/image_3.png" width="300" alt="Application Preview"/>
+
+<img width="300" height="856" alt="Screenshot 2026-03-10 at 10 22 32 PM" src="https://github.com/user-attachments/assets/07e665f4-0f3a-44ac-afdd-e7e6d7f7d3d1" />
+<img width="303" height="850" alt="Screenshot 2026-03-10 at 10 23 02 PM" src="https://github.com/user-attachments/assets/c6ac7e71-9087-4312-a6c2-85b6ed3f5dc6" />
+</div>
 </div>
 
-### Preview of the Carpark Application main interface
+<div align="center">
+<img width="300" height="855" alt="Screenshot 2026-03-10 at 10 24 10 PM" src="https://github.com/user-attachments/assets/7f0cda63-d297-4fa6-89c4-126f2c436230" />
+
+<img width="300" height="849" alt="Screenshot 2026-03-10 at 10 24 48 PM" src="https://github.com/user-attachments/assets/44f8d5f9-090b-40f4-ac51-32e0632eaf69" />
 </div>
 
-## Project Structure
 
-The project consists of two main parts:
-- Frontend (React)
-- Backend (Flask)
-- Container Image (Docker)
-- Deployment (AWS)
+## Project 
+
+The frontend runs on React. 
+The backend data is scraped from the open source LTA and HDB parking data endpoints. <br>
+Data is stored inside a Supabase Postgre Instance and updated via a Flask Scheduler job every 1 minute  <br>
+Different frontend endpoints request the data from the backend handler, which perform CRUD on Postgre to retrieve and clean the lot information  <br>
+Storage in a DB reduces search time and makes app responsive.   <br>
+
+
+<br/>
+<div align="center">
+    
+    Application Simple Architecture
+    
+<img width="600" height="700" alt="Park_it" src="https://github.com/user-attachments/assets/afe8aaaf-9757-4c94-9069-c02a1d06deb6" />
+</div>
+
+<br/>
+
+**Improvements**<br/>
+Ideally, parking data can be done entirely in memory using Redis,  since number of lots is bounded (O(1)) <br>
+Hosting a Redis instance alongside the backend WSGI would greatly increase search speed <br>
+The use of a DB was initially due to external project requirements  <br>
 
 ## Prerequisites
 
 Before running the application, make sure you have the following installed:
 - Node.js and npm (for frontend)
-- Python 3.x and pip (for backend)
+- Python 3.12 and pip (for backend)
 - Required dependencies (see Installation section)
 
 ## Installation
 
-### Frontend Setup
+### Run Project
+1. From root dir
+```bash
+docker compose up
+```
+
+### Run Frontend
 1. Navigate to the frontend directory:
 ```bash
-cd frontend
+source start.sh
 ```
 
-2. Install dependencies:
-```bash
-npm install
-```
-
-### Backend Setup
+### Run Backend
 1. Navigate to the backend directory:
 ```bash
-cd backend
+source start.sh
 ```
 
-2. Create and activate a virtual environment (recommended):
-```bash
-python -m venv venv
-source venv/bin/activate  # For Unix/macOS
-venv\Scripts\activate     # For Windows
-```
 
-3. Install Python dependencies:
-```bash
-pip install -r requirements.txt
-```
-
-## Running the Application
-
-### Start Frontend
-```bash
-cd frontend
-npm start
-```
-The frontend will be available at `http://localhost:3000`
-
-### Start Backend
-```bash
-cd backend
-flask run
-```
-The backend API will be available at `http://localhost:5000`
 
 ## Development
 
@@ -96,4 +96,4 @@ The backend API will be available at `http://localhost:5000`
 
 ## License
 This project is licensed under the [MIT License](LICENSE).
-```
+
