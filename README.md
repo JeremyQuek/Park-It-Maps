@@ -13,7 +13,7 @@
 
 </div>
 
-A web application to help drivers find parking more easily. Applications like google maps do not tailor to local singapore parking live data or locations. If you're a new driver, chances are you'll be stressed out while driving. This app helps you to find parking spots easily and display information like lot type, EV charging spots, parking locations and prices.
+An SG based  web application to help drivers find parking more easily! Applications like google maps do not tailor to local singapore parking live data or locations. If you're a new driver, chances are you'll be stressed out while driving. This app helps you to find parking spots easily and display information like lot type, EV charging spots, parking locations and prices.
 
 ## App Preview
 
