@@ -48,6 +48,13 @@ Data is stored inside a Supabase Postgre Instance and updated via a Flask Schedu
 Different frontend endpoints request the data from the backend handler, which perform CRUD on Postgre to retrieve and clean the lot information  <br>
 Storage in a DB reduces search time and makes app responsive.   <br>
 
+## Services
+1.  **Frontend ([Vercel](https://vercel.com/)):** The React app is hosted here for high performance and global edge delivery.
+2.  **Backend ([Render](https://render.com/)):** The Python Flask server handles the carpark logic. 
+3.  **Database ([Supabase](https://supabase.com/)):** A cloud-hosted Postgres DB that maintains bookmarks and carpark data independently of the server state.
+4.  **Cron Job ([Cron-Job.org](https://cron-job.org/)):** Stay alive `/ping` endpoint every 10 minutes. 
+
+
 
 <br/>
 <div align="center">
@@ -79,13 +86,13 @@ Before running the application, make sure you have the following installed:
 docker compose up
 ```
 
-### Run Frontend
+### Run Frontend Only
 1. Navigate to the frontend directory:
 ```bash
 source start.sh
 ```
 
-### Run Backend
+### Run Backend Only
 1. Navigate to the backend directory:
 ```bash
 source start.sh
