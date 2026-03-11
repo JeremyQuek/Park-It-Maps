@@ -2,16 +2,21 @@
     
 # 🚙  Park It!  🚗
 
+
+
 ![Python](https://img.shields.io/badge/Python-555555?style=for-the-badge&logo=python&logoColor=white)
 ![3.12](https://img.shields.io/badge/3.12-FFC11A?style=for-the-badge)
 ![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)
-
 ![Docker](https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white)
 ![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)
 ![Node.js](https://img.shields.io/badge/Node.js-43853D?style=for-the-badge&logo=node.js&logoColor=white)
 ![AWS](https://img.shields.io/badge/AWS-232F3E?style=for-the-badge&logo=amazon-aws&logoColor=white)
 
+
+<img width="200" height="856" alt="Screenshot 2026-03-10 at 10 22 32 PM" src="https://github.com/JeremyQuek/park-it-maps/blob/production/Images/parkit_white_logo.png" />
 </div>
+
+
 
 An SG based  web application to help drivers find parking more easily! Applications like google maps do not tailor to local singapore parking live data or locations. If you're a new driver, chances are you'll be stressed out while driving. This app helps you to find parking spots easily and display information like lot type, EV charging spots, parking locations and prices.
 
