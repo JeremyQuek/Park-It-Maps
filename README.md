@@ -53,7 +53,7 @@ Storage in a DB reduces search time and makes app responsive.   <br>
 2.  **Backend ([Render](https://render.com/)):** The Python Flask server handles the carpark logic. 
 3.  **Database ([Supabase](https://supabase.com/)):** A cloud-hosted Postgres DB that maintains bookmarks and carpark data independently of the server state.
 4.  **LLM Integration ([GroqCloud](https://groq.com/groqcloud)):** Uses Language Models to dynamically sort unstructured prices formats
-5.  **Cron Job ([Cron-Job.org](https://cron-job.org/)):** Stay alive `/ping` endpoint every 10 minutes. 
+5.  **Cron Job ([Cron-Job.org](https://cron-job.org/)):** Periodically pings endpoint to crawl and cache LTA/HDB parking data.
 
 
 
