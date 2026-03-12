@@ -15,6 +15,7 @@ backend:
       - DB_URL=
       - INTERVAL=895
       - DATABASE_UPDATE_INTERVAL=60
+      - GROQ_MODEL=
 
   frontend:
     build: ./frontend
