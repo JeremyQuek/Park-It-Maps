@@ -7,6 +7,7 @@ from math import radians, sin, cos, sqrt, atan2
 
 load_dotenv()
 KEY=os.getenv("GROQ_KEY")
+MODEL = os.getenv("GROQ_MODEL")
 client = Groq(api_key=KEY)
 
 def sort_by_dist(target, carpark_data, k=10):
@@ -67,7 +68,10 @@ def sort_by_price(carpark_data):
             without_price.append(carpark)
         else:
             with_price.append(carpark)
-    sorted_with_price = natural_language_processing(with_price)
+    try:
+        sorted_with_price = natural_language_processing(with_price)
+    except Exception as e:
+        sorted_with_price = sort(with_price)
     sorted_with_price.extend(without_price)
     carpark_data.clear()
     carpark_data.extend(sorted_with_price)
@@ -120,7 +124,7 @@ def groq_inference(carpark_data):
 
     chat_completion = client.chat.completions.create(
         messages=messages,
-        model="llama-3.2-90b-vision-preview",
+        model=MODEL,
         temperature=0
     )
 
