@@ -27,6 +27,17 @@ app.register_blueprint(sort_option_bp)
 def ping_endpoint():
     return jsonify({"message": "pong"}), 200
 
+@app.route("/update", methods=["GET"])
+def update_db_job():
+    try:
+        cache_lots_and_update_db()
+         return jsonify({"message": "Updated executed successfully"}), 200
+    except Exception as e:
+        return jsonify({"error": f"Error encountered: {e}"}), 500
+
+
+
+
 scheduler = APScheduler()
 @scheduler.task("interval", id = "my_job", seconds=int(DATABASE_UPDATE_INTERVAL))
 def cache_job():
