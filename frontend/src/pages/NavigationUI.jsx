@@ -448,68 +448,6 @@ function Navigation() {
             </IconButton>
           </motion.div>
         )}
-
-        {showNearMeBox && (
-          <motion.div
-            initial={{ x: -50, opacity: 0 }}
-            animate={{ x: 0, opacity: 1 }}
-            exit={{ x: -50, opacity: 0 }}
-            style={{
-              position: "fixed",
-              bottom: "585px",
-              left: "40%",
-              zIndex: 3000,
-              width: "200px",
-              backgroundColor: "#292929",
-              padding: "8px 12px",
-              borderRadius: "8px",
-              color: "white",
-              boxShadow: "0px 4px 15px rgba(0,0,0,0.3)",
-            }}
-          >
-            <Typography variant="caption" fontWeight="600" display="block">
-              Click here to find carparks at your current location!
-            </Typography>
-            <Button
-              size="small"
-              onClick={closeNearMeBox}
-              sx={{ color: "#90caf9", p: 0, mt: 0.5, fontSize: "0.7rem" }}
-            >
-              Next
-            </Button>
-          </motion.div>
-        )}
-
-        {showGmapsBox && (
-          <motion.div
-            initial={{ x: -50, opacity: 0 }}
-            animate={{ x: 0, opacity: 1 }}
-            exit={{ x: -50, opacity: 0 }}
-            style={{
-              position: "fixed",
-              bottom: "515px",
-              left: "40%",
-              zIndex: 3000,
-              width: "200px",
-              backgroundColor: "#1565c0",
-              padding: "8px 12px",
-              borderRadius: "8px",
-              color: "white",
-              boxShadow: "0px 4px 15px rgba(0,0,0,0.3)",
-            }}
-          >
-            <Typography variant="caption" fontWeight="600" display="block">
-              Open your selected destination in Google Maps.
-            </Typography>
-            <Button
-              size="small"
-              onClick={closeGmapsBox}
-              sx={{ color: "white", p: 0, mt: 0.5, fontSize: "0.7rem" }}
-            >
-              Got it!
-            </Button>
-          </motion.div>
-        )}
       </AnimatePresence>
 
       <motion.div
@@ -537,30 +475,120 @@ function Navigation() {
         }}
         style={{ position: "relative" }}
       >
-        <Fab
-          onClick={handleFindNearMe}
-          sx={{
-            position: "absolute", // Fixed the typo
-            bottom: "580px", // Adjust distance from the bottom of the map container
-            left: "20px", // Adjust distance from the right of the map container
-            color: "white",
-            background: "#292929",
-          }}
-        >
-          <DirectionsCarFilled />
-        </Fab>
-
-        <Fab
-          color="primary"
-          onClick={handleOpenGmaps}
-          sx={{
-            position: "absolute", // Fixed the typo
-            bottom: "510px", // Adjust distance from the bottom of the map container
+        <div
+          style={{
+            position: "absolute",
+            bottom: "580px",
             left: "20px",
+            zIndex: 1000,
           }}
         >
-          <NavigationIcon />
-        </Fab>
+          <Fab
+            onClick={handleFindNearMe}
+            sx={{
+              color: "white",
+              background: "#292929",
+              "&:hover": { background: "#000" },
+            }}
+          >
+            <DirectionsCarFilled />
+          </Fab>
+
+          {/* SNAP-ON MODAL */}
+          <AnimatePresence>
+            {showNearMeBox && (
+              <motion.div
+                initial={{ opacity: 0, x: -10 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: -10 }}
+                style={{
+                  position: "absolute",
+                  left: "50px", // Places it to the right of the button
+                  top: "30%",
+                  transform: "translateY(-30%)",
+                  width: "200px",
+                  backgroundColor: "#292929",
+                  padding: "10px",
+                  borderRadius: "8px",
+                  color: "white",
+                  boxShadow: "0px 4px 15px rgba(0,0,0,0.3)",
+                  zIndex: 1001,
+                }}
+              >
+                <Typography variant="caption" fontWeight="600">
+                  Alternatively, click here to quickly find carparks at your
+                  current location!
+                </Typography>
+                <Button
+                  size="small"
+                  onClick={closeNearMeBox}
+                  sx={{
+                    color: "#90caf9",
+                    mt: 0.5,
+                    display: "block",
+                    fontSize: "0.7rem",
+                  }}
+                >
+                  Next
+                </Button>
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </div>
+
+        <div
+          style={{
+            position: "absolute",
+            bottom: "510px",
+            left: "20px",
+            zIndex: 1000,
+          }}
+        >
+          <Fab color="primary" onClick={handleOpenGmaps}>
+            <NavigationIcon />
+          </Fab>
+
+          {/* SNAP-ON MODAL */}
+          <AnimatePresence>
+            {showGmapsBox && (
+              <motion.div
+                initial={{ opacity: 0, x: -10 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: -10 }}
+                style={{
+                  position: "absolute",
+                  left: "50px",
+                  top: "30%",
+                  transform: "translateY(-30%)",
+                  width: "200px",
+                  backgroundColor: "#1565c0",
+                  padding: "10px",
+                  borderRadius: "8px",
+                  color: "white",
+                  boxShadow: "0px 4px 15px rgba(0,0,0,0.3)",
+                  zIndex: 1001,
+                }}
+              >
+                <Typography variant="caption" fontWeight="600">
+                  You can also click here to open the route navigation in Google
+                  Maps.
+                </Typography>
+                <Button
+                  size="small"
+                  onClick={closeGmapsBox}
+                  sx={{
+                    color: "white",
+                    mt: 0.5,
+                    display: "block",
+                    fontSize: "0.7rem",
+                  }}
+                >
+                  Got it!
+                </Button>
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </div>
       </motion.div>
 
       <Snackbar

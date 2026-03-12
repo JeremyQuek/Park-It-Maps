@@ -223,7 +223,7 @@ const Bookmarks = () => {
             <Stack direction="row" spacing={1.5} alignItems="center">
               <InfoOutlined sx={{ fontSize: 20 }} />
               <Typography variant="body2" fontWeight="600">
-                Save your favorite spots to find parking faster!
+                Add bookmarks below to save your favorite spots!
               </Typography>
             </Stack>
             <IconButton
