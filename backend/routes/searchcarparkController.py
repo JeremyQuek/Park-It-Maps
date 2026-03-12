@@ -40,9 +40,14 @@ def carparkfinder():
             carpark["EV"] = 0
 
     if settings.sort_type == "price":
-            sort_by_price(res)
+        print("Sorted search with LLM")
+        sort_by_price(res)
     elif settings.sort_type == "lots":
-            sort_by_lots(res)
+        print("Sorted search with lots")
+        sort_by_lots(res)
+    else:
+        print("Sorted search with dist")
+
 
     if settings.veh_type == "motorcycle":
          for carpark in res:

@@ -71,7 +71,10 @@ def sort_by_price(carpark_data):
     try:
         sorted_with_price = natural_language_processing(with_price)
     except Exception as e:
+        print(f"Error sorting with LLM {e}")
+        print("defaulted to naive sort")
         sorted_with_price = sort(with_price)
+
     sorted_with_price.extend(without_price)
     carpark_data.clear()
     carpark_data.extend(sorted_with_price)
@@ -129,10 +132,5 @@ def groq_inference(carpark_data):
     )
 
     data = chat_completion.choices[0].message.content
-    # start_idx = data.find('[')
-    # end_idx = data.rfind(']')
-    # if start_idx != -1 and end_idx != -1:
-    #     data = data[start_idx:end_idx + 1]
-    print(data)
     parsed_data = literal_eval(data)
     return parsed_data
