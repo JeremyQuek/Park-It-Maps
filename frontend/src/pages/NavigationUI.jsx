@@ -44,7 +44,7 @@ function Navigation() {
   const [startPoint, setStartPoint] = useState(null);
   const [endPoint, setEndPoint] = useState(state?.coordinates || null);
   const [carparkData, setCarparkData] = useState(null);
-  // const [showPopup, setShowPopup] = useState(false);
+
   const [isExpanded, setIsExpanded] = useState(true);
   const [visibleResults, setVisibleResults] = useState(3);
   const [userLocation, setUserLocation] = useState(null);
@@ -56,37 +56,37 @@ function Navigation() {
   const [showGmapsBox, setShowGmapsBox] = useState(false);
 
   useEffect(() => {
-    const hasSeenInThisSession = sessionStorage.getItem("hasSeenGithubBox");
+    const hasSeenInThisSession = sessionStorage.getItem("hasSeenInThisSession");
 
     if (!hasSeenInThisSession) {
-      // Show ONLY the GitHub box first
-      const timer = setTimeout(() => setShowGithubBox(true), 1000);
+      // Start the sequence with the Instruction Box instead
+      const timer = setTimeout(() => setShowInstructionBox(true), 1000);
       return () => clearTimeout(timer);
     }
   }, []);
 
-  const closeGithubBox = () => {
-    sessionStorage.setItem("hasSeenGithubBox", "true");
-    setShowGithubBox(false);
-
-    // Trigger the Instruction box immediately after GitHub is closed
-    setTimeout(() => {
-      setShowInstructionBox(true);
-    }, 1000);
-  };
-
+  // 1. Instruction Box Closes -> Shows NearMe
   const closeInstructionBox = () => {
     setShowInstructionBox(false);
     setTimeout(() => setShowNearMeBox(true), 1000);
   };
 
+  // 2. NearMe Box Closes -> Shows GMaps
   const closeNearMeBox = () => {
     setShowNearMeBox(false);
     setTimeout(() => setShowGmapsBox(true), 1000);
   };
 
+  // 3. GMaps Box Closes -> Shows GitHub
   const closeGmapsBox = () => {
     setShowGmapsBox(false);
+    setTimeout(() => setShowGithubBox(true), 1000);
+  };
+
+  // 4. GitHub Box Closes -> Ends Session Sequence
+  const closeGithubBox = () => {
+    setShowGithubBox(false);
+    // Mark the entire sequence as complete
     sessionStorage.setItem("hasSeenInThisSession", "true");
   };
 
@@ -387,7 +387,7 @@ function Navigation() {
                 Check out the Source Code
               </Typography>
               <Typography variant="body2" color="text.secondary">
-                Star this project on GitHub if you find it useful!
+                See how the project was implemented on GitHub!
               </Typography>
               <Button
                 variant="contained"
@@ -422,11 +422,12 @@ function Navigation() {
               transform: "translateX(-50%)",
               zIndex: 3000,
               width: "280px", // Slightly narrower
-              backgroundColor: "#1565c0", // MUI Primary Blue
+              minHeight: "4%",
+              backgroundColor: "white", // MUI Primary Blue
               padding: "10px 16px", // Slimmer padding
               borderRadius: "12px",
               boxShadow: "0px 8px 30px rgba(0,0,0,0.2)",
-              color: "white",
+              color: "black",
               display: "flex",
               alignItems: "center",
               justifyContent: "space-between",
@@ -442,7 +443,7 @@ function Navigation() {
             <IconButton
               size="small"
               onClick={closeInstructionBox}
-              sx={{ color: "white", ml: 1, padding: 0 }}
+              sx={{ color: "grey", ml: 1, padding: 0 }}
             >
               <CloseIcon fontSize="small" />
             </IconButton>

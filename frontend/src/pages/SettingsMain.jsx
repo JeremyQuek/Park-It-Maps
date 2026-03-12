@@ -41,7 +41,7 @@ function SettingsMain() {
   const handleDialogClose = (redirect) => {
     setOpenDialog(false);
     if (redirect) {
-      window.open("https://github.com/JeremyQuek/ParkIt_App", "_blank");
+      window.open("https://github.com/JeremyQuek/Park-It-app", "_blank");
     }
   };
 
@@ -102,7 +102,7 @@ function SettingsMain() {
           <TbHeadphones size={25} />
           <ListItemText
             sx={{ marginLeft: "5%" }}
-            primary="Help and Support"
+            primary="Project Source Code"
             secondary="Read our project and developer docs"
           />
           <IconButton onClick={handleHelpClick}>

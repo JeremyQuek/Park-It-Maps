@@ -210,11 +210,11 @@ const Bookmarks = () => {
               transform: "translateX(-50%)",
               zIndex: 3000,
               width: "300px",
-              backgroundColor: "#1976d2",
+              backgroundColor: "white",
               padding: "12px 16px",
               borderRadius: "12px",
               boxShadow: "0px 8px 30px rgba(0,0,0,0.2)",
-              color: "white",
+              color: "black",
               display: "flex",
               alignItems: "center",
               justifyContent: "space-between",
@@ -229,7 +229,7 @@ const Bookmarks = () => {
             <IconButton
               size="small"
               onClick={closeInstructionBox}
-              sx={{ color: "white", ml: 1, padding: 0 }}
+              sx={{ color: "grey", ml: 1, padding: 0 }}
             >
               <CloseIcon fontSize="small" />
             </IconButton>
